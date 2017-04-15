@@ -31,10 +31,10 @@ def get_points(filename):
         # Perplexity Hyperparameters
         pe = [2,5,30,50,100]
         # Iteration Hyperparameters
-        it = [10,20,60,120,1000]
+        it = [200,600,1200,10000]
         for i in pe:
         	for j in it:
-        		data_transform = TSNE(perplexity=i,n_iter=it).fit_transform(data)
+        		data_transform = TSNE(perplexity=i,n_iter=j).fit_transform(data)
         		scatter(data_transform,str(i)+'-'+str(j))
         
         #global points
