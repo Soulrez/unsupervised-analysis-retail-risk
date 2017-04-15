@@ -19,15 +19,24 @@ from os.path import isfile, join
 # Random state.
 RS = 20150101
 #points = np.empty([2,2])
-def scatter(x):
+def scatter(x,state):
     f = plt.figure(figsize=(10, 10))
     sc = plt.scatter(x[:,0], x[:,1],c=x[:,1],cmap=plt.cm.get_cmap("jet", 10))
-    plt.savefig('tsne-generated.png', dpi=120)
+    plt.savefig('tsne-'+state+'.png', dpi=120)
 
 def get_points(filename):
     with open('data/safeway/'+filename) as f:
         data = [map(float, i.split(',')) for i in f]
-        data_transform = TSNE(random_state=RS).fit_transform(data)
+        
+        # Perplexity Hyperparameters
+        pe = [2,5,30,50,100]
+        # Iteration Hyperparameters
+        it = [10,20,60,120,1000]
+        for i in pe:
+        	for j in it:
+        		data_transform = TSNE(perplexity=i,n_iter=it).fit_transform(data)
+        		scatter(data_transform,str(i)+'-'+str(j))
+        
         #global points
         #if filename=='xaa':
             #print('Before:' + str(len(points)))
@@ -38,7 +47,7 @@ def get_points(filename):
             #points = np.concatenate([points,data_transform])
             #print('After:' + str(len(points)))
         #print points
-        scatter(data_transform)
+        
 
 if __name__ == '__main__':
     files = ["report.csv"]
