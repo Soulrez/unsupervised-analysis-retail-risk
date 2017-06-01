@@ -96,7 +96,7 @@ class View2D(MapView):
             ax.set_yticklabels([])
             ax.set_xticklabels([])
             plt.colorbar(pl)
-
+        plt.savefig('sofm.png', dpi=600)
         plt.show()
 
 

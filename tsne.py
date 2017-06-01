@@ -16,13 +16,20 @@ import matplotlib
 from os import listdir
 from os.path import isfile, join
 
-# Random state.
-RS = 20150101
 #points = np.empty([2,2])
 def scatter(x,state):
-    f = plt.figure(figsize=(10, 10))
-    sc = plt.scatter(x[:,0], x[:,1],c=x[:,1],cmap=plt.cm.get_cmap("jet", 10))
-    plt.savefig('tsne-'+state+'.png', dpi=120)
+    f = plt.figure(figsize=(5, 5))
+
+    # Calculate the L2 norm for coloring purposes
+    x1,y1 = x[:,0], x[:,1]
+    l2 = []
+    for i in range(0,len(x)):
+        l2.append(np.sqrt(x1[i]**2 + y1[i]**2))
+
+    sc = plt.scatter(x[:,0], x[:,1],c=np.asarray(l2),cmap=plt.cm.get_cmap("jet", 10))
+    #sc = plt.scatter(x[:,0], x[:,1],c=np.linalg.norm(x[:,0]-x[:,1]),cmap=plt.cm.get_cmap("jet", 10))
+    plt.axis('off')
+    plt.savefig('plots/tsne-'+state+'.png', dpi=600)
 
 def get_points(filename):
     with open('data/safeway/'+filename) as f:
@@ -48,7 +55,6 @@ def get_points(filename):
             #print('After:' + str(len(points)))
         #print points
         
-
 if __name__ == '__main__':
     files = ["report.csv"]
     for filename in files:

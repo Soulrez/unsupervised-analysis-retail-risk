@@ -31,7 +31,9 @@ class HitMapView(MatplotView):
             cents = som.bmu_ind_to_xy(np.arange(0, msz[0]*msz[1]))
             self._set_labels(cents, ax, codebook)
 
+        
         plt.imshow(codebook.reshape(msz[0], msz[1])[::], alpha=.5)
         plt.show()
+        plt.savefig('sofm-hitmap.png', dpi=600)
 
         return cents
